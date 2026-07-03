@@ -5,8 +5,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Illuminate\Support\Facades\RateLimiter;
+use App\Http\Middleware\ApiRateLimit;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,16 +20,23 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        $middleware->alias([
+            'api.rate.limit' => ApiRateLimit::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
         $exceptions->render(function (ValidationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'The given data was invalid.',
                     'error_code' => 'VALIDATION_ERROR',
                     'errors' => $e->errors(),
-                    'meta' => ['request_id' => 'req_'.Str::random(8)],
+                    'meta' => [
+                        'request_id' => 'req_'.Str::random(8),
+                    ],
                 ], 422);
             }
         });
@@ -36,7 +47,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => 'The requested resource could not be found.',
                     'error_code' => 'RESOURCE_NOT_FOUND',
                     'errors' => null,
-                    'meta' => ['request_id' => 'req_'.Str::random(8)],
+                    'meta' => [
+                        'request_id' => 'req_'.Str::random(8),
+                    ],
                 ], 404);
             }
         });
@@ -47,8 +60,12 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => 'Unauthenticated.',
                     'error_code' => 'UNAUTHENTICATED',
                     'errors' => null,
-                    'meta' => ['request_id' => 'req_'.Str::random(8)],
+                    'meta' => [
+                        'request_id' => 'req_'.Str::random(8),
+                    ],
                 ], 401);
             }
         });
-    })->create();
+
+    })
+    ->create();
