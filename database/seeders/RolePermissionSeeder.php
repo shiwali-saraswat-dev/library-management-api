@@ -13,26 +13,9 @@ class RolePermissionSeeder extends Seeder
         $guard = 'sanctum';
 
         $permissions = [
-            // Catalog
-            'books.view', 'books.create', 'books.update', 'books.delete',
-
-            // Members
-            'members.view', 'members.create', 'members.update', 'members.deactivate',
-
-            // Staff (owner/admin only)
-            'staff.view', 'staff.create', 'staff.update', 'staff.delete',
-
-            // Borrowing
-            'borrows.create', 'borrows.return', 'borrows.view.own', 'borrows.view.all',
-
-            // Reservations
-            'reservations.create', 'reservations.cancel', 'reservations.view.own', 'reservations.view.all',
-
-            // Fines
-            'fines.view.own', 'fines.view.all', 'fines.collect', 'fines.waive',
-
-            // Reports / system
-            'reports.view', 'settings.manage',
+            // Authors
+            'author.list', 'author.view', 'author.create', 'author.update',
+            'author.delete', 'author.restore', 'author.force_delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -44,30 +27,26 @@ class RolePermissionSeeder extends Seeder
 
         $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => $guard]);
         $admin->syncPermissions([
-            'books.view', 'books.create', 'books.update', 'books.delete',
-            'members.view', 'members.create', 'members.update', 'members.deactivate',
-            'staff.view', 'staff.create', 'staff.update',
-            'borrows.create', 'borrows.return', 'borrows.view.all',
-            'reservations.view.all', 'reservations.cancel',
-            'fines.view.all', 'fines.collect', 'fines.waive',
-            'reports.view',
+
+            'author.list', 'author.view', 'author.create', 'author.update',
+            'author.delete', 'author.restore', 'author.force_delete',
+
         ]);
 
         $librarian = Role::firstOrCreate(['name' => 'librarian', 'guard_name' => $guard]);
         $librarian->syncPermissions([
-            'books.view', 'books.create', 'books.update',
-            'members.view', 'members.create',
-            'borrows.create', 'borrows.return', 'borrows.view.all',
-            'reservations.create', 'reservations.cancel', 'reservations.view.all',
-            'fines.view.all', 'fines.collect',
+
+            // No force_delete for librarian — that stays owner/admin only,
+            // same convention as staff.delete being withheld above.
+            'author.list', 'author.view', 'author.create', 'author.update',
+            'author.delete', 'author.restore',
+
         ]);
 
         $member = Role::firstOrCreate(['name' => 'member', 'guard_name' => $guard]);
         $member->syncPermissions([
-            'books.view',
-            'borrows.view.own',
-            'reservations.create', 'reservations.cancel', 'reservations.view.own',
-            'fines.view.own',
+
+            'author.list', 'author.view',
         ]);
     }
 }
