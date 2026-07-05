@@ -13,7 +13,7 @@ class ApiRateLimit
     /**
      * Handle an incoming request.
      *
-     * @param string $preset Name of the preset defined in config/rate_limits.php
+     * @param  string  $preset  Name of the preset defined in config/rate_limits.php
      */
     public function handle(
         Request $request,
@@ -28,9 +28,9 @@ class ApiRateLimit
         // Logged-in users -> user id
         // Guests -> IP Address
         // Prefixed with preset name so different presets never share a counter.
-        $key = $preset . ':' . ($request->user()
-            ? 'user:' . $request->user()->id
-            : 'ip:' . $request->ip());
+        $key = $preset.':'.($request->user()
+            ? 'user:'.$request->user()->id
+            : 'ip:'.$request->ip());
 
         // Has exceeded limit?
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
@@ -41,16 +41,16 @@ class ApiRateLimit
                 'error_code' => 'RATE_LIMIT_EXCEEDED',
                 'errors' => null,
                 'meta' => [
-                    'request_id' => 'req_' . now()->format('YmdHisv') . '_' . Str::random(6),
+                    'request_id' => 'req_'.now()->format('YmdHisv').'_'.Str::random(6),
                     'limit' => $maxAttempts,
                     'remaining' => 0,
                     'retry_after' => $retryAfter,
                     'retry_at' => now()->addSeconds($retryAfter)->toIso8601String(),
                 ],
             ], 429)
-            ->header('Retry-After', $retryAfter)
-            ->header('X-RateLimit-Limit', $maxAttempts)
-            ->header('X-RateLimit-Remaining', 0);
+                ->header('Retry-After', $retryAfter)
+                ->header('X-RateLimit-Limit', $maxAttempts)
+                ->header('X-RateLimit-Remaining', 0);
         }
 
         // Increment counter for this request

@@ -16,9 +16,7 @@ class AuthorController extends Controller
     // Laravel's service container sees AuthorService in the constructor
     // and automatically creates one for us. We never write "new AuthorService()"
     // ourselves -- that's what makes this swappable/mockable in tests.
-    public function __construct(protected AuthorService $authorService)
-    {
-    }
+    public function __construct(protected AuthorService $authorService) {}
 
     // GET /api/authors
     // Supports: ?filter[search]=x  ?filter[nationality]=x  ?sort=-name  ?per_page=15  ?page=2

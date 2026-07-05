@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Author extends Model
 {
@@ -18,9 +17,9 @@ class Author extends Model
 
     /**
      * The attributes that are mass assignable.
-     * Whitelisting like this (instead of $guarded = []) is the safer default for 
+     * Whitelisting like this (instead of $guarded = []) is the safer default for
      * an API where the request body is untrusted input.
-     * 
+     *
      * @var list<string>
      */
     protected $fillable = [
@@ -49,7 +48,7 @@ class Author extends Model
     {
         return $this->hasMany(Book::class);
     }
- 
+
     /**
      * Local query scope for free-text search across a few columns.
      * Used by the service layer as a custom filter for spatie/laravel-query-builder.
@@ -63,5 +62,4 @@ class Author extends Model
                 ->orWhere('country', 'like', "%{$term}%");
         });
     }
-
 }

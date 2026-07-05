@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Author;
+use App\QueryFilters\SearchFilter;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -39,7 +40,7 @@ class AuthorService
                 // scopeSearch() method we defined on the Author model above,
                 // instead of doing an exact-match WHERE (which is the
                 // library's default behaviour for a plain string filter).
-                AllowedFilter::custom('search', new \App\QueryFilters\SearchFilter),
+                AllowedFilter::custom('search', new SearchFilter),
 
                 // Plain filters do an exact WHERE country = '...' clause.
                 AllowedFilter::exact('country'),
@@ -64,7 +65,7 @@ class AuthorService
     {
         return QueryBuilder::for(Author::onlyTrashed())
             ->allowedFilters([
-                AllowedFilter::custom('search', new \App\QueryFilters\SearchFilter),
+                AllowedFilter::custom('search', new SearchFilter),
             ])
             ->allowedSorts(['name', 'deleted_at'])
             ->defaultSort('-deleted_at')

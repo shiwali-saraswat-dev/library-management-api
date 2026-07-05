@@ -30,14 +30,13 @@ return [
         'max_attempts' => 5,
         'decay_seconds' => 60,
     ],
- 
+
     // Tighter guard: max attempts against one specific account (by email),
     // combined with IP. This is the actual brute-force stopper.
     'login_strict' => [
         'max_attempts' => 2,
         'decay_seconds' => 60,
     ],
- 
 
     'register' => [
         'max_attempts' => 5,

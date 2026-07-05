@@ -15,7 +15,7 @@ Route::prefix('v1')
         Route::prefix('auth')->group(function () {
             Route::post('register', [AuthController::class, 'register'])
                 ->middleware('api.rate.limit:register');
- 
+
             // Layer 1 (api.rate.limit:api) already applied via the group above.
             // Layer 2 + 3 stacked here, in the order they should run:
             Route::post('login', [AuthController::class, 'login'])
@@ -23,7 +23,7 @@ Route::prefix('v1')
                     'api.rate.limit:login', // Layer 2: 5/60s, IP-wide
                     'throttle:login',       // Layer 3: 2/60s, email+IP (login_strict preset)
                 ]);
- 
+
             Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:sanctum');
             Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
         });
@@ -43,7 +43,7 @@ Route::prefix('v1')
             ->group(function () {
                 Route::get('/', [AuthorController::class, 'index'])->name('index');
                 Route::post('/store', [AuthorController::class, 'store'])->name('store');
-            
+
                 Route::get('/trashed', [AuthorController::class, 'trashed'])->name('trashed');
                 Route::patch('/restore/{author_id}', [AuthorController::class, 'restore'])
                     ->whereNumber('author_id')
@@ -51,7 +51,7 @@ Route::prefix('v1')
                 Route::delete('/force-delete/{author_id}', [AuthorController::class, 'forceDelete'])
                     ->whereNumber('author_id')
                     ->name('force_delete');
-            
+
                 // These use implicit route-model-binding: Laravel resolves {author} into
                 // an App\Models\Author instance automatically before the controller
                 // method runs, 404-ing early if no matching (non-trashed) row exists.
@@ -60,8 +60,7 @@ Route::prefix('v1')
                 Route::patch('/update/{author_id}', [AuthorController::class, 'update']);
                 Route::delete('/destroy/{author_id}', [AuthorController::class, 'destroy'])->name('destroy');
             }
-        );
-        
+            );
 
     }
-);
+    );

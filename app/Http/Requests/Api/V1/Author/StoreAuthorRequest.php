@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api\V1\Author;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreAuthorRequest extends FormRequest
 {
@@ -31,7 +30,7 @@ class StoreAuthorRequest extends FormRequest
 
             'dob' => ['nullable', 'date', 'before:today'],
 
-            'country' => ['nullable', 'string', 'max:100']
+            'country' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -42,7 +41,7 @@ class StoreAuthorRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'birth_date.before' => 'Birth date must be a date in the past.'
+            'birth_date.before' => 'Birth date must be a date in the past.',
         ];
     }
 }

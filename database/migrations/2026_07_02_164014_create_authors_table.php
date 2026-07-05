@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('bio')->nullable();
             $table->date('dob')->nullable();
-            $table->string('country',100)->nullable();
+            $table->string('country', 100)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
