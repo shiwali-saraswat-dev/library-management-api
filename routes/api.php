@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\AuthorController;
+use App\Http\Controllers\Api\V1\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,73 @@ Route::prefix('v1')
                 Route::put('/update/{author_id}', [AuthorController::class, 'update'])->name('update');
                 Route::patch('/update/{author_id}', [AuthorController::class, 'update']);
                 Route::delete('/destroy/{author_id}', [AuthorController::class, 'destroy'])->name('destroy');
+            }
+            );
+
+        // =========================================================================
+        // Category routes
+        // FIX 23: All route params changed from {category} to {category_id}.
+        // FIX 24: whereNumber('category_id') added — rejects non-integer IDs at
+        //         router level, returns 404 before controller runs.
+        // =========================================================================
+
+        Route::prefix('categories')->name('categories.')
+            ->middleware('auth:sanctum')
+            ->group(function (): void {
+
+                // -----------------------------------------------------------------
+                // Public routes — no auth required
+                // -----------------------------------------------------------------
+
+                Route::get('/', [CategoryController::class, 'index'])
+                    ->name('index')
+                    ->middleware('throttle:api');
+
+                Route::get('/view/{category_id}', [CategoryController::class, 'show'])
+                    ->name('show')
+                    ->whereNumber('category_id')
+                    ->middleware('throttle:api');
+
+                // -----------------------------------------------------------------
+                // Protected routes — auth required; role checks handled by Policy
+                // -----------------------------------------------------------------
+
+                Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
+
+                    // Create — idempotency middleware prevents duplicate on retry
+                    Route::post('/store', [CategoryController::class, 'store'])
+                        ->name('store')
+                        ->middleware('idempotency');
+
+                    // Update
+                    Route::put('/update/{category_id}', [CategoryController::class, 'update'])
+                        ->name('update')
+                        ->whereNumber('category_id');
+
+                    // Soft delete
+                    Route::delete('/destroy/{category_id}', [CategoryController::class, 'destroy'])
+                        ->name('destroy')
+                        ->whereNumber('category_id');
+
+                    // Restore — POST because it's a state change, not a resource creation
+                    // FIX 25: Must be defined BEFORE /{category_id} to avoid ambiguity.
+                    //         Laravel matches routes top-to-bottom — /5/restore must not
+                    //         be swallowed by /{category_id} as "category_id=5/restore".
+                    //         Using a nested prefix solves this cleanly.
+                    Route::patch('/restore/{category_id}', [CategoryController::class, 'restore'])
+                        ->name('restore')
+                        ->whereNumber('category_id');
+
+                    // Force delete — permanent, irreversible
+                    Route::delete('/force-delete/{category_id}', [CategoryController::class, 'forceDelete'])
+                        ->name('force-delete')
+                        ->whereNumber('category_id');
+
+                    // Category's books — nested resource, read-only from category side
+                    // Route::get('/{category_id}/books', [\App\Http\Controllers\Api\V1\BookController::class, 'byCategory'])
+                    //     ->name('books.index')
+                    //     ->whereNumber('category_id');
+                });
             }
             );
 

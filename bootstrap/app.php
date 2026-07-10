@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\ApiRateLimit;
+use App\Http\Middleware\IdempotencyMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'api.rate.limit' => ApiRateLimit::class,
+            'idempotency' => IdempotencyMiddleware::class,
         ]);
 
     })

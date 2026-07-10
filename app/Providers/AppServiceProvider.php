@@ -23,14 +23,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('api', function (Request $request) {
+            $config = config('rate_limits.api');
+
+            return Limit::perMinute($config['max_attempts'])->by(
+                $request->user()?->id ?: $request->ip()
+            );
+        });
+
         // Strict brute-force protection for login, keyed by email + IP.
         // Numbers pulled from config/rate_limits.php so there's one source of truth.
         RateLimiter::for('login', function (Request $request) {
             $config = config('rate_limits.login_strict');
- 
+
             $email = Str::lower((string) $request->input('email'));
-            $key = $email . '|' . $request->ip();
- 
+            $key = $email.'|'.$request->ip();
+
             return Limit::perMinute($config['max_attempts'])
                 ->by($key)
                 ->response(function (Request $request, array $headers) {
