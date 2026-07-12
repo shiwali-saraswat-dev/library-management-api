@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\AuthorController;
+use App\Http\Controllers\Api\V1\BookController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -126,6 +127,68 @@ Route::prefix('v1')
                     // Route::get('/{category_id}/books', [\App\Http\Controllers\Api\V1\BookController::class, 'byCategory'])
                     //     ->name('books.index')
                     //     ->whereNumber('category_id');
+                });
+            }
+            );
+
+        // =========================================================================
+        // Book routes
+        // =========================================================================
+
+        Route::prefix('books')->name('books.')
+            ->group(function (): void {
+
+                // -----------------------------------------------------------------
+                // Public routes — catalog reads, no auth required
+                // -----------------------------------------------------------------
+
+                Route::get('/', [BookController::class, 'index'])
+                    ->name('index')
+                    ->middleware('throttle:api');
+
+                // Must come before /view/{book_id} for the same reason trashed()
+                // must precede {author} in the Authors group — Laravel matches
+                // top-to-bottom, and {book_id} would swallow the literal "trashed".
+                // (Trashed listing is arguably a protected/librarian-only action —
+                // moved into the auth group below if so; kept here only if reads
+                // should stay public.)
+
+                Route::get('/view/{book_id}', [BookController::class, 'show'])
+                    ->name('show')
+                    ->whereNumber('book_id')
+                    ->middleware('throttle:api');
+
+                // -----------------------------------------------------------------
+                // Protected routes — auth required; role checks via Policy
+                // -----------------------------------------------------------------
+
+                Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
+
+                    Route::get('/trashed', [BookController::class, 'trashed'])->name('trashed');
+
+                    Route::post('/store', [BookController::class, 'store'])
+                        ->name('store')
+                        ->middleware('idempotency');
+
+                    Route::put('/update/{book_id}', [BookController::class, 'update'])
+                        ->name('update')
+                        ->whereNumber('book_id');
+                    Route::patch('/update/{book_id}', [BookController::class, 'update']);
+
+                    Route::delete('/destroy/{book_id}', [BookController::class, 'destroy'])
+                        ->name('destroy')
+                        ->whereNumber('book_id');
+
+                    // Must be declared before nothing here conflicts — /restore/{book_id}
+                    // and /force-delete/{book_id} are their own literal-first segments,
+                    // so no ordering trap like the /trashed one above.
+                    Route::patch('/restore/{book_id}', [BookController::class, 'restore'])
+                        ->name('restore')
+                        ->whereNumber('book_id');
+
+                    Route::delete('/force-delete/{book_id}', [BookController::class, 'forceDelete'])
+                        ->name('force-delete')
+                        ->whereNumber('book_id');
                 });
             }
             );

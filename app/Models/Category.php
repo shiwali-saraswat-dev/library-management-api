@@ -86,6 +86,11 @@ class Category extends Model
     // Query Scopes
     // =========================================================================
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('active', fn ($query) => $query->where('is_active', true));
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
