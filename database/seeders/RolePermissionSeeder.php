@@ -20,6 +20,10 @@ class RolePermissionSeeder extends Seeder
             // Categories
             'category.list', 'category.view', 'category.create', 'category.update',
             'category.delete', 'category.restore', 'category.force_delete',
+
+            // Members
+            'member.list', 'member.view', 'member.create', 'member.update',
+            'member.delete', 'member.restore', 'member.force_delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -38,6 +42,9 @@ class RolePermissionSeeder extends Seeder
             'category.list', 'category.view', 'category.create', 'category.update',
             'category.delete', 'category.restore', 'category.force_delete',
 
+            'member.list', 'member.view', 'member.create', 'member.update',
+            'member.delete', 'member.restore', 'member.force_delete',
+
         ]);
 
         $librarian = Role::firstOrCreate(['name' => 'librarian', 'guard_name' => $guard]);
@@ -51,14 +58,16 @@ class RolePermissionSeeder extends Seeder
             'category.list', 'category.view', 'category.create', 'category.update',
             'category.delete', 'category.restore',
 
+            'member.list', 'member.view', 'member.create', 'member.update',
+            'member.delete', 'member.restore',
+
         ]);
 
         $member = Role::firstOrCreate(['name' => 'member', 'guard_name' => $guard]);
         $member->syncPermissions([
-
             'author.list', 'author.view',
             'category.list', 'category.view',
-
+            'member.view', 'member.update',
         ]);
     }
 }

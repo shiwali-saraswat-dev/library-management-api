@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\AuthorController;
 use App\Http\Controllers\Api\V1\BookController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\MemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,9 +67,6 @@ Route::prefix('v1')
 
         // =========================================================================
         // Category routes
-        // FIX 23: All route params changed from {category} to {category_id}.
-        // FIX 24: whereNumber('category_id') added — rejects non-integer IDs at
-        //         router level, returns 404 before controller runs.
         // =========================================================================
 
         Route::prefix('categories')->name('categories.')
@@ -192,6 +190,48 @@ Route::prefix('v1')
                 });
             }
             );
+
+        
+        
+        // =========================================================================
+        // Member routes
+        // =========================================================================
+
+        Route::prefix('members')->name('members.')->middleware('auth:sanctum')->group(function (): void {
+            Route::get('/', [MemberController::class, 'index'])
+                ->name('index')
+                ->middleware('throttle:api');
+
+            Route::post('/store', [MemberController::class, 'store'])
+                ->name('store')
+                ->middleware('throttle:api');
+
+            Route::get('/view/{member_id}', [MemberController::class, 'show'])
+                ->name('show')
+                ->whereNumber('member_id')
+                ->middleware('throttle:api');
+
+            Route::put('/update/{member_id}', [MemberController::class, 'update'])
+                ->name('update')
+                ->whereNumber('member_id')
+                ->middleware('throttle:api');
+
+            Route::delete('/destroy/{member_id}', [MemberController::class, 'destroy'])
+                ->name('destroy')
+                ->whereNumber('member_id')
+                ->middleware('throttle:api');
+
+            Route::patch('/restore/{member_id}', [MemberController::class, 'restore'])
+                ->name('restore')
+                ->whereNumber('member_id')
+                ->middleware('throttle:api');
+
+            Route::delete('/force-delete/{member_id}', [MemberController::class, 'forceDelete'])
+                ->name('force-delete')
+                ->whereNumber('member_id')
+                ->middleware('throttle:api');
+        });
+          
 
     }
     );

@@ -24,9 +24,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'phone', 'password',
     ];
 
     /**
@@ -35,8 +33,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
@@ -51,4 +48,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // =========================================================================
+    // Role helper methods — wraps Spatie's hasRole() for cleaner policy code.
+    // Using these instead of hasRole('admin') directly means if you rename
+    // a role later, you change one method here, not 10+ policy files.
+    // =========================================================================
+
+    // public function isAdmin(): bool
+    // {
+    //     return $this->hasRole('admin');
+    // }
+
+    // public function isLibrarian(): bool
+    // {
+    //     return $this->hasRole('librarian');
+    // }
+
+    // public function isMember(): bool
+    // {
+    //     return $this->hasRole('member');
+    // }
+
+    // public function isAdminOrLibrarian(): bool
+    // {
+    //     return $this->hasAnyRole(['admin', 'librarian']);
+    // }
 }
