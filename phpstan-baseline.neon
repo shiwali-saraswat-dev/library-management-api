@@ -1,29 +1,6 @@
 parameters:
 	ignoreErrors:
-		-
-			message: '#^Access to property \$errorCode on an unknown class App\\Exceptions\\ApiException\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Exceptions/ApiExceptionRenderer.php
-
-		-
-			message: '#^Access to property \$status on an unknown class App\\Exceptions\\ApiException\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Exceptions/ApiExceptionRenderer.php
-
-		-
-			message: '#^Call to method getMessage\(\) on an unknown class App\\Exceptions\\ApiException\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Exceptions/ApiExceptionRenderer.php
-
-		-
-			message: '#^Class App\\Exceptions\\ApiException not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Exceptions/ApiExceptionRenderer.php
-
+	
 		-
 			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
