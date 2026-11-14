@@ -23,4 +23,12 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
+phpstan-report.txt
+storage/api-docs/
+/storage/api-docs
+phpstan-report.txt
+
+/public/vendor
+/resources/views/vendor
+
 laravel_commands.txt

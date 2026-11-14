@@ -2,13 +2,12 @@
 
 use App\Http\Middleware\ApiRateLimit;
 use App\Http\Middleware\IdempotencyMiddleware;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Middleware\RequestId;
+use App\Support\ApiError;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,53 +17,25 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Runs first in the api group, so rate-limit and idempotency
+        // middleware (and logs) can already see the request ID.
+        $middleware->api(prepend: [RequestId::class]);
 
         $middleware->alias([
             'api.rate.limit' => ApiRateLimit::class,
             'idempotency' => IdempotencyMiddleware::class,
         ]);
-
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Never redirect API clients to a login page, even without an Accept header.
+        $exceptions->shouldRenderJsonWhen(
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson()
+        );
 
-        $exceptions->render(function (ValidationException $e, $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'The given data was invalid.',
-                    'error_code' => 'VALIDATION_ERROR',
-                    'errors' => $e->errors(),
-                    'meta' => [
-                        'request_id' => 'req_'.Str::random(8),
-                    ],
-                ], 422);
-            }
-        });
-
-        $exceptions->render(function (ModelNotFoundException $e, $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'The requested resource could not be found.',
-                    'error_code' => 'RESOURCE_NOT_FOUND',
-                    'errors' => null,
-                    'meta' => [
-                        'request_id' => 'req_'.Str::random(8),
-                    ],
-                ], 404);
-            }
-        });
-
-        $exceptions->render(function (AuthenticationException $e, $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'Unauthenticated.',
-                    'error_code' => 'UNAUTHENTICATED',
-                    'errors' => null,
-                    'meta' => [
-                        'request_id' => 'req_'.Str::random(8),
-                    ],
-                ], 401);
-            }
-        });
-
+        $exceptions->render(
+            fn (Throwable $e, Request $request) => $request->is('api/*')
+                ? ApiError::from($e, $request)
+                : null
+        );
     })
     ->create();

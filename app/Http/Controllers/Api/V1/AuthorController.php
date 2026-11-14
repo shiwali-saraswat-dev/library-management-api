@@ -10,6 +10,7 @@ use App\Models\Author;
 use App\Services\AuthorService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA; 
 
 class AuthorController extends Controller
 {
@@ -18,8 +19,34 @@ class AuthorController extends Controller
     // ourselves -- that's what makes this swappable/mockable in tests.
     public function __construct(protected AuthorService $authorService) {}
 
-    // GET /api/authors
-    // Supports: ?filter[search]=x  ?filter[nationality]=x  ?sort=-name  ?per_page=15  ?page=2
+    /**
+     * @OA\Get(
+     *     path="/authors",
+     *     tags={"Authors"},
+     *     summary="List authors — search, filter, sort, paginate",
+     *     @OA\Parameter(name="filter[genre]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[isbn]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[available]", in="query", @OA\Schema(type="boolean")),
+     *     @OA\Parameter(name="filter[search]", in="query", description="Matches title, isbn, author name, category name", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[author]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[category]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[trashed]", in="query", @OA\Schema(type="string", enum={"only","with"})),
+     *     @OA\Parameter(name="sort", in="query", description="Prefix with - for descending. Comma-separate for multi-sort.", @OA\Schema(type="string", example="-published_at")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Parameter(name="page[number]", in="query", @OA\Schema(type="integer", default=1)),
+     *     @OA\Parameter(name="page[size]", in="query", @OA\Schema(type="integer", default=15, maximum=100)),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Paginated list",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Book")),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response=304, description="Not Modified — matches If-None-Match")
+     * )
+     */
     public function index(Request $request): JsonResponse
     {
         // Throws a 403 automatically if the logged-in user's policy check fails.
@@ -31,7 +58,18 @@ class AuthorController extends Controller
         return AuthorResource::collection($authors)->response();
     }
 
-    // POST /api/authors/store
+    /**
+     * @OA\Post(
+     *     path="/authors/store",
+     *     tags={"Authors"},
+     *     summary="Create an author",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=201, description="Created", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=422, description="Validation error"),
+     *     @OA\Response(response=409, description="Duplicate request (idempotency key reused)")
+     * )
+     */
     public function store(StoreAuthorRequest $request): JsonResponse
     {
         $this->authorize('create', Author::class);
@@ -45,7 +83,18 @@ class AuthorController extends Controller
             ->setStatusCode(201);
     }
 
-    // GET /api/authors/view/{author_id}
+    /**
+     * @OA\Get(
+     *     path="/authors/view/{author_id}",
+     *     tags={"Authors"},
+     *     summary="Get a single book",
+     *     @OA\Parameter(name="author_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Response(response=200, description="OK", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=304, description="Not Modified"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function show(Author $author_id): JsonResponse
     {
         // {author} was already turned into an Author model by route-model-binding
@@ -58,7 +107,19 @@ class AuthorController extends Controller
         return (new AuthorResource($author_id))->response();
     }
 
-    // PUT/PATCH /api/authors/update/{author_id}
+    /**
+     * @OA\Put(
+     *     path="/authors/update/{author_id}",
+     *     tags={"Authors"},
+     *     summary="Update an author",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="author_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=200, description="Updated", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found"),
+     *     @OA\Response(response=422, description="Validation error")
+     * )
+     */
     public function update(UpdateAuthorRequest $request, Author $author_id): JsonResponse
     {
         $this->authorize('update', $author_id);
@@ -68,7 +129,17 @@ class AuthorController extends Controller
         return (new AuthorResource($author))->response();
     }
 
-    // DELETE /api/authors/destroy/{author_id}  (soft delete)
+    /**
+     * @OA\Delete(
+     *     path="/authors/destroy/{author_id}",
+     *     tags={"Authors"},
+     *     summary="Soft delete an author",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Deleted (soft)"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function destroy(Author $author_id): JsonResponse
     {
         $this->authorize('delete', $author_id);
@@ -79,7 +150,17 @@ class AuthorController extends Controller
         return response()->json(null, 204);
     }
 
-    // GET /api/authors/trashed
+    /**
+     * @OA\Get(
+     *     path="/authors/trashed",
+     *     tags={"Authors"},
+     *     summary="List soft-deleted authors",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="page[number]", in="query", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="page[size]", in="query", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="OK", @OA\JsonContent(@OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Book"))))
+     * )
+     */
     public function trashed(Request $request): JsonResponse
     {
         $this->authorize('viewAny', Author::class);
@@ -89,7 +170,17 @@ class AuthorController extends Controller
         return AuthorResource::collection($authors)->response();
     }
 
-    // PATCH /api/authors/restore/{author_id}/restore
+    /**
+     * @OA\Patch(
+     *     path="/authors/restore/{author_id}",
+     *     tags={"Authors"},
+     *     summary="Restore a soft-deleted author",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="author_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Restored", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found in trash")
+     * )
+     */
     public function restore(int $author_id): JsonResponse
     {
         // We authorize against Author::class, not an instance, because we
@@ -102,7 +193,17 @@ class AuthorController extends Controller
         return (new AuthorResource($author))->response();
     }
 
-    // DELETE /api/authors/force-delete/{author_id}/force  (irreversible)
+    /**
+     * @OA\Delete(
+     *     path="/authors/force-delete/{book_id}",
+     *     tags={"Authors"},
+     *     summary="Permanently delete an author (irreversible)",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="author_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Permanently deleted"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
+     */
     public function forceDelete(int $author_id): JsonResponse
     {
         $this->authorize('forceDelete', Author::class);

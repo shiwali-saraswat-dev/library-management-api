@@ -15,6 +15,7 @@ use App\Services\CategoryService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA; 
 
 /**
  * @group Categories
@@ -30,29 +31,33 @@ class CategoryController extends Controller
         private readonly CategoryService $categoryService,
     ) {}
 
-    // =========================================================================
-    // GET /api/v1/categories
-    // =========================================================================
-
     /**
-     * List categories
-     *
-     * Returns a cursor-paginated list of categories with search, sort, and filter support.
-     * Admins and librarians can also filter trashed (soft-deleted) records.
-     *
-     * @queryParam search string Search across name and description. Min 2 chars. Example: fiction
-     * @queryParam sort_by string Column to sort by. One of: name, sort_order, books_count, created_at, updated_at. Example: name
-     * @queryParam sort_dir string Sort direction. One of: asc, desc. Example: asc
-     * @queryParam per_page integer Results per page. Min 1, max 100. Default: 15. Example: 20
-     * @queryParam is_active boolean Filter by active status. Example: true
-     * @queryParam trashed string Admin only. one of: only_deleted, with_deleted. Example: only_deleted
-     * @queryParam cursor string Opaque cursor from previous response meta.next_cursor. Example: eyJpZCI6MTV9
-     *
-     * @response 200 scenario="Success" {
-     *   "success": true,
-     *   "data": [{"id": 1, "name": "Fiction", "slug": "fiction", "books_count": 42}],
-     *   "meta": {"per_page": 15, "next_cursor": "eyJpZCI6MTV9", "has_more": true}
-     * }
+     * @OA\Get(
+     *     path="/categories",
+     *     tags={"Categories"},
+     *     summary="List categories — search, filter, sort, paginate",
+     *     @OA\Parameter(name="filter[genre]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[isbn]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[available]", in="query", @OA\Schema(type="boolean")),
+     *     @OA\Parameter(name="filter[search]", in="query", description="Matches title, isbn, author name, category name", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[author]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[category]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[trashed]", in="query", @OA\Schema(type="string", enum={"only","with"})),
+     *     @OA\Parameter(name="sort", in="query", description="Prefix with - for descending. Comma-separate for multi-sort.", @OA\Schema(type="string", example="-published_at")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Parameter(name="page[number]", in="query", @OA\Schema(type="integer", default=1)),
+     *     @OA\Parameter(name="page[size]", in="query", @OA\Schema(type="integer", default=15, maximum=100)),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Paginated list",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Book")),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response=304, description="Not Modified — matches If-None-Match")
+     * )
      */
     public function index(ListCategoryRequest $request): CategoryCollection
     {
@@ -61,26 +66,17 @@ class CategoryController extends Controller
         return new CategoryCollection($categories);
     }
 
-    // =========================================================================
-    // GET /api/v1/categories/{category_id}
-    // =========================================================================
-
     /**
-     * Category details
-     *
-     * Returns full details for a single active category including books_count,
-     * audit fields (admin/librarian only), and role-aware HATEOAS _links.
-     *
-     * @authenticated
-     *
-     * @urlParam category_id integer required The category ID. Example: 1
-     *
-     * @response 200 scenario="Success" {
-     *   "success": true,
-     *   "data": {"id": 1, "name": "Fiction", "slug": "fiction", "books_count": 42, "_links": {}}
-     * }
-     * @response 403 scenario="Forbidden — trashed category, non-admin" {"success": false, "message": "You do not have permission to perform this action."}
-     * @response 404 scenario="Not found" {"success": false, "message": "Category not found."}
+     * @OA\Get(
+     *     path="/categories/view/{category_id}",
+     *     tags={"Categories"},
+     *     summary="Get a single category",
+     *     @OA\Parameter(name="category_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Response(response=200, description="OK", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=304, description="Not Modified"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function show(Request $request, int $category_id): JsonResponse
     {
@@ -109,34 +105,17 @@ class CategoryController extends Controller
         );
     }
 
-    // =========================================================================
-    // POST /api/v1/categories
-    // =========================================================================
-
     /**
-     * Create a category
-     *
-     * Creates a new category. Slug is auto-generated from name and guaranteed unique.
-     * Requires admin or librarian role. Supports Idempotency-Key header.
-     *
-     * @authenticated
-     *
-     * @bodyParam name string required Category name. Min 2, max 100 chars. Example: Science Fiction
-     * @bodyParam description string optional Category description. Max 1000 chars. Example: Speculative fiction exploring futuristic concepts.
-     * @bodyParam color string optional Hex color for UI badges. Example: #6366F1
-     * @bodyParam icon string optional Icon identifier for frontend. Example: book-open
-     * @bodyParam is_active boolean optional Defaults to true. Example: true
-     * @bodyParam sort_order integer optional Display order 0–9999. Example: 5
-     *
-     * @header Idempotency-Key string Unique key to prevent duplicate creation on retry. Example: idem_cat_Xy7pQrS
-     *
-     * @response 201 scenario="Created" {
-     *   "success": true,
-     *   "data": {"id": 8, "name": "Science Fiction", "slug": "science-fiction"}
-     * }
-     * @response 409 scenario="Idempotent replay" {"success": true, "X-Idempotent-Replayed": "true"}
-     * @response 422 scenario="Validation failed" {"success": false, "message": "Validation failed.", "errors": {}}
-     * @response 403 scenario="Forbidden" {"success": false, "message": "You do not have permission to perform this action."}
+     * @OA\Post(
+     *     path="/categories/store",
+     *     tags={"Categories"},
+     *     summary="Create a category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=201, description="Created", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=422, description="Validation error"),
+     *     @OA\Response(response=409, description="Duplicate request (idempotency key reused)")
+     * )
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
@@ -151,30 +130,18 @@ class CategoryController extends Controller
         );
     }
 
-    // =========================================================================
-    // PUT /api/v1/categories/{category_id}
-    // =========================================================================
-
     /**
-     * Update a category
-     *
-     * Updates an existing category. All fields are optional (partial update via
-     * `sometimes` validation). Slug regenerates automatically when name changes.
-     *
-     * @authenticated
-     *
-     * @urlParam category_id integer required The category ID. Example: 1
-     *
-     * @bodyParam name string Category name. Example: Literary Fiction
-     * @bodyParam description string Category description. Example: Updated description.
-     * @bodyParam color string Hex color code. Example: #10B981
-     * @bodyParam icon string Icon identifier. Example: bookmark
-     * @bodyParam is_active boolean Active status. Example: false
-     * @bodyParam sort_order integer Display order. Example: 3
-     *
-     * @response 200 scenario="Updated" {"success": true, "data": {"id": 1, "name": "Literary Fiction"}}
-     * @response 404 scenario="Not found" {"success": false, "message": "Category not found."}
-     * @response 403 scenario="Forbidden" {"success": false, "message": "You do not have permission to perform this action."}
+     * @OA\Put(
+     *     path="/categories/update/{book_id}",
+     *     tags={"Categories"},
+     *     summary="Update a category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="category_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=200, description="Updated", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found"),
+     *     @OA\Response(response=422, description="Validation error")
+     * )
      */
     public function update(UpdateCategoryRequest $request, int $category_id): JsonResponse
     {
@@ -201,24 +168,16 @@ class CategoryController extends Controller
         );
     }
 
-    // =========================================================================
-    // DELETE /api/v1/categories/{category_id}
-    // =========================================================================
-
     /**
-     * Soft delete a category
-     *
-     * Moves the category to trash (sets deleted_at). Hidden from public listing
-     * but restorable. Blocked if the category has books attached. Requires admin role.
-     *
-     * @authenticated
-     *
-     * @urlParam category_id integer required The category ID. Example: 1
-     *
-     * @response 200 scenario="Soft deleted" {"success": true, "message": "Category moved to trash."}
-     * @response 409 scenario="Has books" {"success": false, "message": "Category has 3 book(s) assigned."}
-     * @response 404 scenario="Not found" {"success": false, "message": "Category not found."}
-     * @response 403 scenario="Forbidden" {"success": false, "message": "You do not have permission to perform this action."}
+     * @OA\Delete(
+     *     path="/categories/destroy/{book_id}",
+     *     tags={"Categories"},
+     *     summary="Soft delete a category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="category_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Deleted (soft)"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function destroy(int $category_id): JsonResponse
     {
@@ -236,25 +195,16 @@ class CategoryController extends Controller
         return $this->ok(data: null, message: 'Category moved to trash. It can be restored by an admin.');
     }
 
-    // =========================================================================
-    // POST /api/v1/categories/{category_id}/restore
-    // =========================================================================
-
     /**
-     * Restore a soft-deleted category
-     *
-     * Restores a trashed category back to active state. The category_id must
-     * belong to a soft-deleted record. Use GET /categories?trashed=only_deleted
-     * to discover deleted category IDs. Requires admin role.
-     *
-     * @authenticated
-     *
-     * @urlParam category_id integer required The ID of the soft-deleted category. Example: 5
-     *
-     * @response 200 scenario="Restored" {"success": true, "data": {"id": 5, "name": "Fiction"}}
-     * @response 409 scenario="Not trashed" {"success": false, "message": "Category is not soft-deleted."}
-     * @response 404 scenario="Not found" {"success": false, "message": "Category not found."}
-     * @response 403 scenario="Forbidden" {"success": false, "message": "You do not have permission to perform this action."}
+     * @OA\Patch(
+     *     path="/categories/restore/{book_id}",
+     *     tags={"Categories"},
+     *     summary="Restore a soft-deleted category",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="category_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Restored", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found in trash")
+     * )
      */
     public function restore(int $category_id): JsonResponse
     {
@@ -271,26 +221,16 @@ class CategoryController extends Controller
         );
     }
 
-    // =========================================================================
-    // DELETE /api/v1/categories/{category_id}/force
-    // =========================================================================
-
     /**
-     * Force delete a category (permanent)
-     *
-     * Permanently removes a category from the database. IRREVERSIBLE.
-     * Safety gate: the category MUST be soft-deleted first. You cannot
-     * force-delete an active category — soft-delete it first, then force-delete.
-     *
-     * @authenticated
-     *
-     * @urlParam category_id integer required The ID of the soft-deleted category. Example: 5
-     *
-     * @response 200 scenario="Force deleted" {"success": true, "message": "Category permanently deleted."}
-     * @response 409 scenario="Not trashed" {"success": false, "message": "Category is not soft-deleted."}
-     * @response 409 scenario="Has books" {"success": false, "message": "Category has books assigned."}
-     * @response 404 scenario="Not found" {"success": false, "message": "Category not found."}
-     * @response 403 scenario="Forbidden" {"success": false, "message": "You do not have permission to perform this action."}
+     * @OA\Delete(
+     *     path="/categories/force-delete/{book_id}",
+     *     tags={"Categories"},
+     *     summary="Permanently delete a category (irreversible)",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="category_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Permanently deleted"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function forceDelete(int $category_id): JsonResponse
     {

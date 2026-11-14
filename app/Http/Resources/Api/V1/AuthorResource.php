@@ -2,11 +2,14 @@
 
 namespace App\Http\Resources\Api\V1;
 
+use App\Http\Resources\Concerns\HasLinks;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorResource extends JsonResource
 {
+    use HasLinks;
+
     /**
      * This is the ONLY place that decides what an Author looks like on the wire.
      * The Model can have extra internal columns; this class is the public
@@ -37,6 +40,21 @@ class AuthorResource extends JsonResource
             // the key entirely on a non-trashed author instead of sending null.
             $this->mergeWhen($this->trashed(), [
                 'deleted_at' => $this->deleted_at?->toIso8601String(),
+            ]),
+
+            // HATEOAS links. Mutating links are permission-aware: a link is only
+            // advertised if the current user is actually allowed to follow it.
+            // array_filter() drops the null entries so they never reach the JSON.
+            '_links' => array_filter([
+                'self' => $this->link('authors.show', 'GET'),
+
+                'update' => $request->user()?->can('update', $this->resource)
+                    ? $this->link('authors.update', 'PUT')
+                    : null,
+                    
+                'destroy' => $request->user()?->can('delete', $this->resource)
+                    ? $this->link('authors.destroy', 'DELETE')
+                    : null,
             ]),
         ];
     }

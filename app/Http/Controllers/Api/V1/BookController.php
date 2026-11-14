@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use OpenApi\Annotations as OA; 
 
 class BookController extends Controller
 {
@@ -24,7 +25,32 @@ class BookController extends Controller
     private const CACHE_VERSION_KEY = 'books:cache_version';
 
     /**
-     * GET /api/v1/books
+     * @OA\Get(
+     *     path="/books",
+     *     tags={"Books"},
+     *     summary="List books — search, filter, sort, paginate",
+     *     @OA\Parameter(name="filter[genre]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[isbn]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[available]", in="query", @OA\Schema(type="boolean")),
+     *     @OA\Parameter(name="filter[search]", in="query", description="Matches title, isbn, author name, category name", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[author]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[category]", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[trashed]", in="query", @OA\Schema(type="string", enum={"only","with"})),
+     *     @OA\Parameter(name="sort", in="query", description="Prefix with - for descending. Comma-separate for multi-sort.", @OA\Schema(type="string", example="-published_at")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Parameter(name="page[number]", in="query", @OA\Schema(type="integer", default=1)),
+     *     @OA\Parameter(name="page[size]", in="query", @OA\Schema(type="integer", default=15, maximum=100)),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Paginated list",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Book")),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response=304, description="Not Modified — matches If-None-Match")
+     * )
      */
     public function index(Request $request): SymfonyResponse
     {
@@ -46,8 +72,6 @@ class BookController extends Controller
 
     private function buildIndexPayload(Request $request, int $perPage): array
     {
-        // dd($request->query('filter')); // TEMP — confirm 'trashed' key arrives, then remove
-
         /** @var LengthAwarePaginator $books */
         $books = QueryBuilder::for(Book::class)
             ->allowedFilters([
@@ -123,7 +147,16 @@ class BookController extends Controller
     }
 
     /**
-     * GET /api/v1/books/{book}
+     * @OA\Get(
+     *     path="/books/view/{book_id}",
+     *     tags={"Books"},
+     *     summary="Get a single book",
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="include", in="query", @OA\Schema(type="string", example="author,category")),
+     *     @OA\Response(response=200, description="OK", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=304, description="Not Modified"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function show(Request $request, int $book_id): SymfonyResponse
     {
@@ -143,7 +176,16 @@ class BookController extends Controller
     }
 
     /**
-     * POST /api/v1/books
+     * @OA\Post(
+     *     path="/books/store",
+     *     tags={"Books"},
+     *     summary="Create a book",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=201, description="Created", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=422, description="Validation error"),
+     *     @OA\Response(response=409, description="Duplicate request (idempotency key reused)")
+     * )
      */
     public function store(BookRequest $request): JsonResponse
     {
@@ -157,7 +199,17 @@ class BookController extends Controller
     }
 
     /**
-     * PUT/PATCH /api/v1/books/{book}
+     * @OA\Put(
+     *     path="/books/update/{book_id}",
+     *     tags={"Books"},
+     *     summary="Update a book",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/BookInput")),
+     *     @OA\Response(response=200, description="Updated", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found"),
+     *     @OA\Response(response=422, description="Validation error")
+     * )
      */
     public function update(BookRequest $request, int $book_id): JsonResponse
     {
@@ -170,7 +222,15 @@ class BookController extends Controller
     }
 
     /**
-     * DELETE /api/v1/books/{book}  (soft delete)
+     * @OA\Delete(
+     *     path="/books/destroy/{book_id}",
+     *     tags={"Books"},
+     *     summary="Soft delete a book",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Deleted (soft)"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function destroy(int $book_id): Response
     {
@@ -183,7 +243,15 @@ class BookController extends Controller
     }
 
     /**
-     * POST /api/v1/books/{id}/restore
+     * @OA\Patch(
+     *     path="/books/restore/{book_id}",
+     *     tags={"Books"},
+     *     summary="Restore a soft-deleted book",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Restored", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/Book"))),
+     *     @OA\Response(response=404, description="Not found in trash")
+     * )
      */
     public function restore(int $id): JsonResponse
     {
@@ -195,17 +263,24 @@ class BookController extends Controller
     }
 
     /**
-     * DELETE /api/v1/books/force-delete/{book_id}
-     *
-     * Permanent, irreversible. Unlike destroy() (soft delete), this removes
-     * the row entirely — no restore() possible afterward. Deliberately scoped
-     * to withTrashed() rather than a plain find(): forcing a book through the
-     * trash first (destroy -> restore or destroy -> force-delete) is a safer
-     * default than allowing an active, in-catalog book to be permanently
-     * deleted in one step.
+     * @OA\Delete(
+     *     path="/books/force-delete/{book_id}",
+     *     tags={"Books"},
+     *     summary="Permanently delete a book (irreversible)",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="book_id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=204, description="Permanently deleted"),
+     *     @OA\Response(response=404, description="Not found")
+     * )
      */
     public function forceDelete(int $book_id): Response
     {
+        // Permanent, irreversible. Unlike destroy() (soft delete), this removes
+        // the row entirely — no restore() possible afterward. Deliberately scoped
+        // to withTrashed() rather than a plain find(): forcing a book through the
+        // trash first (destroy -> restore or destroy -> force-delete) is a safer
+        // default than allowing an active, in-catalog book to be permanently
+        // deleted in one step.
         $book = Book::withTrashed()->findOrFail($book_id);
 
         $book->forceDelete();
