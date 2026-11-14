@@ -301,14 +301,38 @@ app/
 
 ## Testing
 
+The test suite uses [Pest](https://pestphp.com):
+
 ```bash
-php artisan test
+vendor/bin/pest
+```
+
+Current coverage includes:
+
+- **Auth** — registration (with rollback if role assignment fails, so no orphaned user is left behind), login (identical responses for a wrong password and an unknown email, to prevent account enumeration), required-field validation, token refresh with revocation of the old token, and logout
+- **Request tracing** — the `X-Request-Id` header is echoed consistently in both the response header and the response body
+- **OpenAPI contract** — a generated-spec test that fails if the Auth module's documented contract drifts from the real implementation
+
+Static analysis runs via [PHPStan](https://phpstan.org) (Larastan rules, level 6):
+
+```bash
+vendor/bin/phpstan analyse
 ```
 
 ## API documentation
 
 - **Swagger UI:** run `php artisan l5-swagger:generate`, then open `/api/documentation`
+- **Static spec:** a generated copy is committed at [docs/openapi.json](docs/openapi.json), so the API surface can be inspected without running the project
 - **Postman collection:** [docs/postman/library_management_api.postman_collection.json](docs/postman/library_management_api.postman_collection.json)
+
+> **Current coverage:** OpenAPI annotations are written for Auth, Books, Categories and Authors. Member endpoints are fully functional and covered in the Postman collection; their `@OA` annotations are still in progress.
+
+| ![Login](docs/images/swagger-login.png) | ![Refresh](docs/images/swagger-refresh.png) |
+|---|---|
+| `POST /auth/login` — token issued, standard success envelope | `POST /auth/refresh` — old token revoked, new one issued |
+
+![Logout without a token](docs/images/swagger-logout.png)
+*`POST /auth/logout` called with no bearer token — a `401`, using the same `message` / `error_code` / `meta.request_id` error shape as every other endpoint in the API.*
 
 ## Roadmap
 
