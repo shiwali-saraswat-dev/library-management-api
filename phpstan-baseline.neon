@@ -1,0 +1,1081 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to property \$errorCode on an unknown class App\\Exceptions\\ApiException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Exceptions/ApiExceptionRenderer.php
+
+		-
+			message: '#^Access to property \$status on an unknown class App\\Exceptions\\ApiException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Exceptions/ApiExceptionRenderer.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class App\\Exceptions\\ApiException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Exceptions/ApiExceptionRenderer.php
+
+		-
+			message: '#^Class App\\Exceptions\\ApiException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Exceptions/ApiExceptionRenderer.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginated\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginatedPayload\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginatedPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:success\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:success\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/AuthController.php
+
+		-
+			message: '#^Constant App\\Http\\Controllers\\Api\\V1\\BookController\:\:CACHE_VERSION_KEY is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: app/Http/Controllers/Api/V1/BookController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\BookController\:\:buildIndexPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/BookController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\BookController\:\:respondWithEtag\(\) has parameter \$payload with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/BookController.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$books contains generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/BookController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginated\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginatedPayload\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginatedPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:success\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:success\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/CategoryController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:destroy\(\) should return Illuminate\\Http\\JsonResponse but returns Illuminate\\Http\\Response\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:forceDelete\(\) should return Illuminate\\Http\\JsonResponse but returns Illuminate\\Http\\Response\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:noContent\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:paginated\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:paginatedPayload\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:paginatedPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:success\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:success\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:withRequestId\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:withRequestId\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\MemberController\:\:withRequestId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>role" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Api/V1/MemberController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:login\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:logout\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginated\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginatedPayload\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:paginatedPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:refresh\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:register\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:success\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:success\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:withRequestId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Parameter \#2 \$message of method App\\Http\\Controllers\\Api\\V1\\AuthController\:\:success\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/AuthController.php
+
+		-
+			message: '#^Constant App\\Http\\Controllers\\Api\\V1\\BookController\:\:CACHE_VERSION_KEY is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/BookController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\BookController\:\:buildIndexPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/BookController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\BookController\:\:respondWithEtag\(\) has parameter \$payload with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/BookController.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$books contains generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/BookController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:error\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginated\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginatedPayload\(\) has parameter \$p with generic class Illuminate\\Pagination\\LengthAwarePaginator but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:paginatedPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:success\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:success\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\V1\\CategoryController\:\:withRequestId\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Api/V1_bkp/CategoryController.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Author\\StoreAuthorRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Author/StoreAuthorRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Author\\UpdateAuthorRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Author/UpdateAuthorRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Book\\BookRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Book/BookRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Member\\ListMemberRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Member/ListMemberRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Member\\StoreMemberRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Member/StoreMemberRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\Member\\UpdateMemberRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/Member/UpdateMemberRequest.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\Api\\V1\\RegisterRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Requests/Api/V1/RegisterRequest.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$bio\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$country\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$deleted_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$dob\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:trashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\AuthorResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/AuthorResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$author\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$available_copies\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$genre\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$isbn\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$published_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\BookResource\:\:\$total_copies\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\Api\\V1\\BookResource\:\:trashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\BookResource\:\:buildLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\BookResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/BookResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberCollection\:\:paginationInformation\(\) has parameter \$default with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberCollection.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberCollection\:\:paginationInformation\(\) has parameter \$paginated with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberCollection.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberCollection\:\:paginationInformation\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberCollection.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberCollection\:\:resolveAppliedFilters\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberCollection.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberCollection\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberCollection.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$createdBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$deleted_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$membership_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$phone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$updatedBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Api\\V1\\MemberResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\Api\\V1\\MemberResource\:\:trashed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberResource\:\:resolveLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\Api\\V1\\MemberResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Resources/Api/V1/MemberResource.php
+
+		-
+			message: '#^Class App\\Models\\Author uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Author.php
+
+		-
+			message: '#^Method App\\Models\\Author\:\:books\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Author.php
+
+		-
+			message: '#^Method App\\Models\\Author\:\:scopeSearch\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Author.php
+
+		-
+			message: '#^Method App\\Models\\Author\:\:scopeSearch\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Author.php
+
+		-
+			message: '#^Class App\\Models\\Book uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Book.php
+
+		-
+			message: '#^Method App\\Models\\Book\:\:author\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Book.php
+
+		-
+			message: '#^Method App\\Models\\Book\:\:category\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Book.php
+
+		-
+			message: '#^Class App\\Models\\Borrowing uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:book\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:member\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeOverdue\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeOverdue\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeReturned\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Method App\\Models\\Borrowing\:\:scopeReturned\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Borrowing.php
+
+		-
+			message: '#^Class App\\Models\\Category uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:books\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:createdBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeSearch\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeSearch\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeSorted\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:scopeSorted\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:updatedBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\Category\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Class App\\Models\\Member uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:borrowings\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:createdBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeActive\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeSearch\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeSearch\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeSorted\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:scopeSorted\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Method App\\Models\\Member\:\:updatedBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Member.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:search\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/QueryFilters/SearchFilter.php
+
+		-
+			message: '#^Class App\\QueryFilters\\SearchFilter implements generic interface Spatie\\QueryBuilder\\Filters\\Filter but does not specify its types\: TModelClass$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/QueryFilters/SearchFilter.php
+
+		-
+			message: '#^Method App\\QueryFilters\\SearchFilter\:\:__invoke\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/QueryFilters/SearchFilter.php
+
+		-
+			message: '#^Method App\\QueryFilters\\SearchFilter\:\:__invoke\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/QueryFilters/SearchFilter.php
+
+		-
+			message: '#^Method App\\Repositories\\CategoryRepository\:\:allActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Repositories/CategoryRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\CategoryRepository\:\:paginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\CursorPaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Repositories/CategoryRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Repositories/MemberRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\MemberRepository\:\:create\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Repositories/MemberRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\MemberRepository\:\:paginate\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Repositories/MemberRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\MemberRepository\:\:paginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\CursorPaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Repositories/MemberRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\MemberRepository\:\:update\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Repositories/MemberRepository.php
+
+		-
+			message: '#^Method App\\Services\\AuthorService\:\:create\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/AuthorService.php
+
+		-
+			message: '#^Method App\\Services\\AuthorService\:\:list\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/AuthorService.php
+
+		-
+			message: '#^Method App\\Services\\AuthorService\:\:listTrashed\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/AuthorService.php
+
+		-
+			message: '#^Method App\\Services\\AuthorService\:\:update\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/AuthorService.php
+
+		-
+			message: '#^Method App\\Services\\CategoryService\:\:allActive\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/CategoryService.php
+
+		-
+			message: '#^Method App\\Services\\CategoryService\:\:list\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\CursorPaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/CategoryService.php
+
+		-
+			message: '#^Method App\\Services\\MemberService\:\:create\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/MemberService.php
+
+		-
+			message: '#^Method App\\Services\\MemberService\:\:list\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/MemberService.php
+
+		-
+			message: '#^Method App\\Services\\MemberService\:\:list\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\CursorPaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/MemberService.php
+
+		-
+			message: '#^Method App\\Services\\MemberService\:\:update\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/MemberService.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: true$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Support/ApiError.php
+
+		-
+			message: '#^Method App\\Support\\ApiError\:\:from\(\) should return Illuminate\\Http\\JsonResponse but returns Symfony\\Component\\HttpFoundation\\Response\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Support/ApiError.php
+
+		-
+			message: '#^Method App\\Support\\ApiError\:\:respond\(\) has parameter \$errors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Support/ApiError.php
+
+		-
+			message: '#^Method App\\Support\\ApiError\:\:respond\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Support/ApiError.php
+
+		-
+			message: '#^Method App\\Support\\ApiError\:\:respond\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Support/ApiError.php
