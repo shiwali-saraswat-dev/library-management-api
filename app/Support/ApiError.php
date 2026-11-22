@@ -8,15 +8,15 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Throwable;
 
 /**
@@ -31,13 +31,19 @@ final class ApiError
             return $e->getResponse();
         }
 
+        // Laravel turns ModelNotFoundException into NotFoundHttpException before this callback runs,
+        // but keeps the original one as getPrevious().
+        $model = $e->getPrevious() instanceof ModelNotFoundException
+                    ? Str::headline(class_basename($e->getPrevious()->getModel()))
+                    : null;
+
         [$status, $message, $code] = match (true) {
             $e instanceof ValidationException => [422, 'The given data was invalid.', 'VALIDATION_ERROR'],
             $e instanceof AuthenticationException => [401, 'Unauthenticated.', 'UNAUTHENTICATED'],
             $e instanceof AuthorizationException,
             $e instanceof AccessDeniedHttpException => [403, 'This action is unauthorized.', 'FORBIDDEN'],
             $e instanceof ModelNotFoundException,
-            $e instanceof NotFoundHttpException => [404, 'Resource not found.', 'NOT_FOUND'],
+            $e instanceof NotFoundHttpException => [404, $model ? "{$model} not found." : 'Resource not found.', 'NOT_FOUND'],
             $e instanceof MethodNotAllowedHttpException => [405, 'Method not allowed.', 'METHOD_NOT_ALLOWED'],
             $e instanceof TooManyRequestsHttpException => [429, 'Too many requests.', 'RATE_LIMIT_EXCEEDED'],
             $e instanceof HttpExceptionInterface => [$e->getStatusCode(), $e->getMessage() ?: 'Request failed.', 'HTTP_ERROR'],

@@ -5,6 +5,8 @@ namespace App\Traits;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Pagination\CursorPaginator;
 
 trait ApiResponseTrait
 {
@@ -74,5 +76,26 @@ trait ApiResponseTrait
         ]);
 
         return $body;
+    }
+
+    /**
+     * Cursor-paginated list in the standard envelope:
+     * { message, data, meta: { per_page, next_cursor, prev_cursor, has_more, request_id } }.
+     *
+     * @param  CursorPaginator<int, \Illuminate\Database\Eloquent\Model>  $paginator
+     * @param  class-string<JsonResource>  $resource
+     */
+    protected function cursorPaginated(CursorPaginator $paginator, string $resource, string $message = 'Success'): JsonResponse
+    {
+        return response()->json($this->withRequestId([
+            'message' => $message,
+            'data' => $resource::collection($paginator->items())->resolve(request()),
+            'meta' => [
+                'per_page' => $paginator->perPage(),
+                'next_cursor' => $paginator->nextCursor()?->encode(),
+                'prev_cursor' => $paginator->previousCursor()?->encode(),
+                'has_more' => $paginator->hasMorePages(),
+            ],
+        ]));
     }
 }

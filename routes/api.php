@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\AuthorController;
 use App\Http\Controllers\Api\V1\BookController;
+use App\Http\Controllers\Api\V1\BorrowingController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\MemberController;
 use Illuminate\Http\Request;
@@ -191,8 +192,6 @@ Route::prefix('v1')
             }
             );
 
-        
-        
         // =========================================================================
         // Member routes
         // =========================================================================
@@ -231,7 +230,33 @@ Route::prefix('v1')
                 ->whereNumber('member_id')
                 ->middleware('throttle:api');
         });
-          
+
+        // =========================================================================
+        // Borrowing routes
+        // =========================================================================
+
+        // The {borrowing} parameter name is kept as-is: BorrowingController relies on
+        // implicit route-model-binding by that name. Route names stay borrowings.index,
+        // borrowings.store, borrowings.show and borrowings.return.
+        Route::prefix('borrowings')->name('borrowings.')->middleware('auth:sanctum')->group(function (): void {
+            Route::get('/', [BorrowingController::class, 'index'])
+                ->name('index');
+
+            // Idempotency-Key: a client retry (timeout, double click) replays the first response
+            // instead of borrowing twice. The row locks + unique index protect against DIFFERENT
+            // keys racing.
+            Route::post('/', [BorrowingController::class, 'store'])
+                ->middleware('idempotency')
+                ->name('store');
+
+            Route::get('/{borrowing}', [BorrowingController::class, 'show'])
+                ->whereNumber('borrowing')
+                ->name('show');
+
+            Route::post('/{borrowing}/return', [BorrowingController::class, 'returnBook'])
+                ->whereNumber('borrowing')
+                ->name('return');
+        });
 
     }
     );

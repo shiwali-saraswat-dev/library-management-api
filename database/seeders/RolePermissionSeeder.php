@@ -5,11 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
+        // Spatie caches permissions; reset it so a re-seed is picked up immediately.
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         $guard = 'sanctum';
 
         $permissions = [
@@ -24,6 +28,12 @@ class RolePermissionSeeder extends Seeder
             // Members
             'member.list', 'member.view', 'member.create', 'member.update',
             'member.delete', 'member.restore', 'member.force_delete',
+
+            // Borrowings
+            // list/view: every role (a member only ever sees their own loans).
+            // view_any: see everyone's loans.  create: check a book out.  return: check it back in.
+            'borrowing.list', 'borrowing.view', 'borrowing.view_any',
+            'borrowing.create', 'borrowing.return',
         ];
 
         foreach ($permissions as $permission) {
@@ -45,6 +55,9 @@ class RolePermissionSeeder extends Seeder
             'member.list', 'member.view', 'member.create', 'member.update',
             'member.delete', 'member.restore', 'member.force_delete',
 
+            'borrowing.list', 'borrowing.view', 'borrowing.view_any',
+            'borrowing.create', 'borrowing.return',
+
         ]);
 
         $librarian = Role::firstOrCreate(['name' => 'librarian', 'guard_name' => $guard]);
@@ -61,6 +74,10 @@ class RolePermissionSeeder extends Seeder
             'member.list', 'member.view', 'member.create', 'member.update',
             'member.delete', 'member.restore',
 
+            // Borrow, return, view all.
+            'borrowing.list', 'borrowing.view', 'borrowing.view_any',
+            'borrowing.create', 'borrowing.return',
+
         ]);
 
         $member = Role::firstOrCreate(['name' => 'member', 'guard_name' => $guard]);
@@ -68,6 +85,9 @@ class RolePermissionSeeder extends Seeder
             'author.list', 'author.view',
             'category.list', 'category.view',
             'member.view', 'member.update',
+
+            // View own loans only (enforced in BorrowingPolicy / BorrowingService).
+            'borrowing.list', 'borrowing.view',
         ]);
     }
 }

@@ -22,9 +22,10 @@ class IdempotencyMiddleware
         $key = $request->header('Idempotency-Key');
 
         if (blank($key)) {
-            return response()->json([
-                'message' => 'Idempotency-Key header is required.',
-            ], 400);
+            // return response()->json([
+            //     'message' => 'Idempotency-Key header is required.',
+            // ], 400);
+            throw new \App\Exceptions\IdempotencyKeyRequiredException();
         }
 
         $cacheKey = 'idempotency:'.$key;
