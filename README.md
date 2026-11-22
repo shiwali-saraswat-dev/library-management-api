@@ -299,6 +299,15 @@ app/
 
 **Authors are not users.** Authors, categories and books live in their own catalog tables (`authors`, `categories`, `books`). An author has no account, no role and no login. Each book belongs to one author and one category.
 
+## Architecture diagrams
+
+Mermaid diagrams, rendered natively by GitHub — click through to see the live diagram, not just the source.
+
+- [Request flow & design patterns](docs/diagrams/architecture-request-flow.md) — the full middleware → Form Request → Controller → Service → Repository → Resource pipeline, plus a table of design patterns used throughout the codebase
+- [Auth module flow](docs/diagrams/auth-flow.md) — register, login, refresh, logout
+- [Catalog module flow](docs/diagrams/catalog-module-flow.md) — the shared pattern behind Authors, Categories and Books
+- [Members module flow](docs/diagrams/members-flow.md) — ownership checks, soft delete / restore / force delete
+- [Borrowings module flow](docs/diagrams/borrowings-flow.md) — borrow/return with row-locking
 ## Testing
 
 The test suite uses [Pest](https://pestphp.com):
@@ -337,7 +346,8 @@ vendor/bin/phpstan analyse
 ## Roadmap
 
 - [x] Auth, Categories, Books, Authors and Members endpoints
-- [ ] Borrow and return flow with transaction and row locking
+- [x] Borrow and return flow with transaction and row locking
+- [x] Postman collection and environment committed under `docs/postman/`
 - [ ] Permission tests: one test per role and endpoint from the access tables above
 - [ ] Feature test suite and CI
 
