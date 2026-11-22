@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Complete `@OA` (Swagger) annotations for the Members module
 - Permission tests: one test per role per endpoint, per the access-control tables in the README
 
-## [1.0.0] - 2026-11-XX
+## [1.0.0] - 2026-11-22
 Initial release. A complete, versioned REST API covering the library's core catalog, members and borrowing workflow.
 
 ### Added
